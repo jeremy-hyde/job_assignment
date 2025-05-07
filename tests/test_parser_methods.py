@@ -3,10 +3,8 @@ import sys
 import pytest
 
 from src.parser import (
-    Car,
-    Field,
     check_starting_conditions,
-    parse_args,
+    parse_car_id,
     parse_commands,
     parse_dimensions,
     parse_lines,
@@ -17,35 +15,6 @@ from src.parser import (
 @pytest.fixture
 def parser_mock():
     return type("MockParser", (), {"error": lambda x: sys.exit(1)})
-
-
-class TestArgParser:
-    def test_parse_args_basic(self, monkeypatch):
-        # Set up mock command line arguments
-        test_args = ["program", "10 10\n1 2 N\nFRLF"]
-        monkeypatch.setattr("sys.argv", test_args)
-
-        # Call the function
-        field, car = parse_args()
-
-        # Verify the results
-        assert isinstance(field, Field)
-        assert field.width == 10
-        assert field.height == 10
-
-        assert isinstance(car, Car)
-        assert car.x == 1
-        assert car.y == 2
-        assert car.direction == "N"
-        assert car.command_list == ["F", "R", "L", "F"]
-
-    def test_parse_args_no_args(self, monkeypatch):
-        # Test with no arguments provided
-        test_args = ["program"]
-        monkeypatch.setattr("sys.argv", test_args)
-
-        with pytest.raises(SystemExit):
-            parse_args()
 
 
 class TestParserLines:
@@ -95,6 +64,31 @@ class TestParserDimensions:
         # Test invalid format
         with pytest.raises(SystemExit):
             parse_dimensions(parser_mock, "10,20")
+
+
+class TestParseCarId:
+    def test_parse_car_id_valid(self, parser_mock):
+        # Test valid car IDs
+        assert parse_car_id(parser_mock, "A") == "A"
+        assert parse_car_id(parser_mock, "B") == "B"
+        assert parse_car_id(parser_mock, "Z") == "Z"
+
+    def test_parse_car_id_invalid(self, parser_mock):
+        # Test non-single letter IDs
+        with pytest.raises(SystemExit):
+            parse_car_id(parser_mock, "AB")
+
+        # Test non-uppercase letters
+        with pytest.raises(SystemExit):
+            parse_car_id(parser_mock, "a")
+
+        # Test numbers
+        with pytest.raises(SystemExit):
+            parse_car_id(parser_mock, "1")
+
+        # Test special characters
+        with pytest.raises(SystemExit):
+            parse_car_id(parser_mock, "*")
 
 
 class TestParserStartPosition:

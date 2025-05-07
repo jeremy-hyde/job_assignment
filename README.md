@@ -54,10 +54,24 @@ poetry shell
 
 ## Run
 After activation the virtual env
+
+For using the part 1
 ```shell
-python main.py "10 10                                                                                                                                     .venv  (master|●💩?) 13:28
-                1 3 N
-                FFRFFFRRLFRFL"
+python main.py -p 1 "10 10
+                     1 2 N
+                     FFRFFFRRLF"
+```
+
+For using the part 2
+```shell
+python main.py -p 2 "10 10
+                     A
+                     1 2 N
+                     FFRFFFFRRL
+                    
+                     B
+                     7 8 W
+                     FFLFFFFFF"
 ```
 
 ## Dev Commands

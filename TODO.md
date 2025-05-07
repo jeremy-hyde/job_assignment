@@ -12,9 +12,11 @@
 - DONE Make motions tests
 
 ## Part 2
-- Adapt parser to the new inputs
-- Adjust tests for parser
-- Make tests to check for different length commands?
-- Change motion to check for collision and new inputs
-- Change printed output
-- Adjust motion tests
+- DONE Adapt parser to the new inputs
+- DONE Adjust tests for parser
+- DONE Change motion to check for collision and new inputs
+- DONE Change printed output
+- DONE Adjust move tests
+
+# Improvements
+- Make tests to check for different commands length?

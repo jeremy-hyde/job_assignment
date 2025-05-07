@@ -12,12 +12,13 @@ class Field:
 
 @dataclass
 class Car:
+    id: str
     x: int
     y: int
     direction: str
     command_list: list[str]
 
-    def is_move_valid_for_field(self, field: Field):
+    def is_move_valid_for_field(self, field: Field) -> bool:
         if self.direction == "N" and self.y + 1 >= field.height:
             return False
         elif self.direction == "S" and self.y - 1 < 0:
@@ -28,6 +29,13 @@ class Car:
             return False
         else:
             return True
+
+    def collision_with_car(self, cars: list) -> bool:
+        for car in cars:
+            if self.id != car.id and (self.x, self.y) == (car.x, car.y):
+                return car.id
+
+        return None
 
     def move(self):
         if self.direction == "N":
